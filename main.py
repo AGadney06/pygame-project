@@ -8,9 +8,9 @@ class Game:
         self.player = pygame.sprite.GroupSingle(player_sprite) #Group single with player sprite inside of it
 
     def run(self):
+        self.player.sprite.lasers.draw(screen) #Draws the lasers to the screen
         self.player.update()
         self.player.draw(screen)
-
 
 pygame.init()
 screen_width = 600 #Sets the window's width
