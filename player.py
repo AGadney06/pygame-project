@@ -1,5 +1,5 @@
 import pygame #imports pygame
-from laser import Laser
+from laser import Laser #Imports the Laser class from laser.py
 
 class Player(pygame.sprite.Sprite): #Player class for the player sprite
     def __init__(self,pos,restriction,speed): #Constructor
@@ -13,6 +13,7 @@ class Player(pygame.sprite.Sprite): #Player class for the player sprite
         self.laster_time = 0
         self.laser_cooldown = 600
 
+        self.lasers = pygame.sprite.Group()
     def get_input(self):
         keys = pygame.key.get_pressed()
 
@@ -20,7 +21,7 @@ class Player(pygame.sprite.Sprite): #Player class for the player sprite
             self.rect.x += self.speed
         elif keys[pygame.K_LEFT]: #If the left key is pressed move the player to the left
             self.rect.x -= self.speed
-    
+
         if keys[pygame.K_SPACE] and self.ready:
             self.shoot_laser()
             self.ready = False
@@ -31,6 +32,7 @@ class Player(pygame.sprite.Sprite): #Player class for the player sprite
             current_time = pygame.time.get_ticks() #Checks the timer continuously until the cooldown reaches its maximum 
             if current_time - self.laser_time >= self.laser_cooldown: #Checks to see if the timer has reached the end of the cooldown period
                 self.ready = True #The laser is now ready again to fire
+    
     def restriction(self):
         if self.rect.left <= 0:
             self.rect.left = 0
@@ -39,10 +41,11 @@ class Player(pygame.sprite.Sprite): #Player class for the player sprite
             self.rect.right = self.max_x_restriction
 
     def shoot_laser(self): #shoot laser function
-        print('shoot laser')
+        self.lasers.add(Laser(self.rect.center, -8,self.rect.bottom)) #Whenever laser is below player, destroy it
 
-    def update(self):
-        self.get_input()
-        self.restriction()
-        self.recharge()
+    def update(self): #Update function
+        self.get_input() #Calls player inputs
+        self.restriction() #Calls boundaries of the game
+        self.recharge() #Calls the laser's recharge mechanic
+        self.lasers.update() 
     
