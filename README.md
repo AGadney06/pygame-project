@@ -1,6 +1,6 @@
 # pygame-project
 
-#Requirements:
+Requirements:
 1. A full invaders array with 3 alien types ✅
 2. The aliens should move from side to side ✅
 3. Their movement should increase as the invaders are reduced in number (from being shot)
